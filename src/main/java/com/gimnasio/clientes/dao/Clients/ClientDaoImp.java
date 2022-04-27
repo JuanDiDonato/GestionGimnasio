@@ -84,4 +84,6 @@ public class ClientDaoImp implements ClientDao {
         Client client = entityManager.find(Client.class, id);
         entityManager.remove(client);
     }
+
+
 }

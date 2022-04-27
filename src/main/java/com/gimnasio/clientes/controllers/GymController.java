@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,4 +53,18 @@ public class GymController {
                 }
             }
         }
+
+    @RequestMapping(value = "api/gym/profits", method = RequestMethod.POST)
+    public Map clientProfits(@RequestBody String date, HttpServletResponse response, HttpServletRequest request){
+        if(jwtUtil.isValidAuthTokenFromCookie(request)){
+            Map<String, String> res = new HashMap<String, String>();
+            Integer profits = gymDao.getProfitsByDate(date);
+            res.put("Error", "false");
+            res.put("profits", profits.toString());
+            response.setStatus(HttpServletResponse.SC_OK);
+            return res;
+        }
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return null;
+    }
 }
