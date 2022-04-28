@@ -46,4 +46,9 @@ public class StatisticsDaoImp implements StatisticsDao {
 
     }
 
+    @Override
+    public void addNewStatistic(Statistics statistics) {
+        entityManager.merge(statistics);
+    }
+
 }
