@@ -54,6 +54,20 @@ public class PaymentsDaoImp implements PaymentsDao {
 
     }
 
+    @Override
+    public Payments getCurrentPaymendForClient(int id_client) {
+        String query = "FROM Payments WHERE id_client = :id_client AND id_gym = :id_gym";
+        List<Payments> payment = entityManager.createQuery(query)
+                .setParameter("id_client",id_client)
+                .setParameter("id_gym",jwtUtil.getId_gym())
+                .getResultList();
+        if (payment.isEmpty()){
+            return null;
+        }else{
+            return payment.get(0);
+        }
+    }
+
     /**
      *
      * @param payment

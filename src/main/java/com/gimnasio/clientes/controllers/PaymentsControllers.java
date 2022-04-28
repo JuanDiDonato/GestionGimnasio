@@ -65,6 +65,13 @@ public class PaymentsControllers {
         return null;
     }
 
+    /**
+     *
+     * @param id
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "api/payments/{id}", method = RequestMethod.DELETE)
     public Map deletePayment(@PathVariable int id, HttpServletRequest request, HttpServletResponse response){
         if(jwtUtil.isValidAuthTokenFromCookie(request)){
@@ -80,6 +87,22 @@ public class PaymentsControllers {
                 res.put("message","Operacion realizada con exito");
                 response.setStatus(HttpServletResponse.SC_OK);
                 return res;
+            }
+        }
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return null;
+    }
+
+    @RequestMapping(value = "api/payments/{id_client}", method = RequestMethod.GET)
+    public Payments getClientPaymentById(@PathVariable int id_client, HttpServletRequest request, HttpServletResponse response){
+        if(jwtUtil.isValidAuthTokenFromCookie(request)){
+            Payments payment = paymentsDao.getCurrentPaymendForClient(id_client);
+            if (payment == null){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return null;
+            }else{
+                response.setStatus(HttpServletResponse.SC_OK);
+                return payment;
             }
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

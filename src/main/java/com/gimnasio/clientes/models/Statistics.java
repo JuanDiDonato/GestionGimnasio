@@ -19,7 +19,7 @@ public class Statistics {
     @Getter
     @Setter
     @Column(name = "id_gym")
-    private int id_gym;
+    private String id_gym;
 
     @Getter
     @Setter
