@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,10 +56,10 @@ public class GymController {
         }
 
     @RequestMapping(value = "api/gym/profits", method = RequestMethod.POST)
-    public Map clientProfits(@RequestBody String date, HttpServletResponse response, HttpServletRequest request){
+    public Map clientProfits(@RequestBody Map dates, HttpServletResponse response, HttpServletRequest request){
         if(jwtUtil.isValidAuthTokenFromCookie(request)){
             Map<String, String> res = new HashMap<String, String>();
-            Integer profits = gymDao.getProfitsByDate(date);
+            Integer profits = gymDao.getProfitsByDate(dates);
             res.put("Error", "false");
             res.put("profits", profits.toString());
             response.setStatus(HttpServletResponse.SC_OK);

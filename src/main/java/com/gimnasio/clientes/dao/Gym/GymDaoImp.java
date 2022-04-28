@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Transactional
@@ -64,12 +64,13 @@ public class GymDaoImp implements GymDao {
     }
 
     @Override
-    public Integer getProfitsByDate(String date) {
-        String query = "FROM Client WHERE gym = :gym AND payment >= :date";
+    public Integer getProfitsByDate(Map dates) {
+        String query = "FROM Client WHERE gym = :gym AND payment >= :date_start AND payment <= :date_end";
         int profits = 0;
         List<Client> clientes = entityManager.createQuery(query)
                 .setParameter("gym", jwtUtil.getGym())
-                .setParameter("date",date)
+                .setParameter("date_start",dates.get("date_start"))
+                .setParameter("date_end",dates.get("date_end"))
                 .getResultList();
         for(int i = 0; i < clientes.size(); i++){
             profits = profits + clientes.get(i).getValue();
