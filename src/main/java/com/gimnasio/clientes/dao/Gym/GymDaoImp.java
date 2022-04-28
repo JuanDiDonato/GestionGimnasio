@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 @Transactional
@@ -34,9 +33,9 @@ public class GymDaoImp implements GymDao {
     }
 
     @Override
-    public Gym getGymByName(Gym gym) {
-        List<Gym> gimnasio = entityManager.createQuery("FROM Gym WHERE gym_name = :gym_name")
-                .setParameter("gym_name",gym.getGym_name())
+    public Gym getGymByEmail(Gym gym) {
+        List<Gym> gimnasio = entityManager.createQuery("FROM Gym WHERE email = :email")
+                .setParameter("email",gym.getEmail())
                 .getResultList();
 
         if(gimnasio.isEmpty()){
@@ -48,8 +47,8 @@ public class GymDaoImp implements GymDao {
 
     @Override
     public Gym authGym(Gym gym) {
-        List<Gym> gimnasio = entityManager.createQuery("FROM Gym WHERE gym_name = :gym_name")
-                .setParameter("gym_name",gym.getGym_name())
+        List<Gym> gimnasio = entityManager.createQuery("FROM Gym WHERE email = :email")
+                .setParameter("email",gym.getEmail())
                 .getResultList();
         if(gimnasio.isEmpty()){
             return null;
@@ -63,6 +62,7 @@ public class GymDaoImp implements GymDao {
         return null;
     }
 
+    /*
     @Override
     public Integer getProfitsByDate(Map dates) {
         String query = "FROM Client WHERE gym = :gym AND payment >= :date_start AND payment <= :date_end";
@@ -72,11 +72,18 @@ public class GymDaoImp implements GymDao {
                 .setParameter("date_start",dates.get("date_start"))
                 .setParameter("date_end",dates.get("date_end"))
                 .getResultList();
+        for(Client cliente : clientes){
+            profits = profits + cliente.getValue();
+        }
+
+
         for(int i = 0; i < clientes.size(); i++){
             profits = profits + clientes.get(i).getValue();
         }
+
+
         return profits;
     }
-
+    */
 
 }

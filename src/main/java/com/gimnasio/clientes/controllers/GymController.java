@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +35,8 @@ public class GymController {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return res;
             }else {
-                Gym gimnasio = gymDao.getGymByName(gymData);
-                if (gimnasio != null) {
+                Gym gym = gymDao.getGymByEmail(gymData);
+                if (gym != null) {
                     res.put("Error", "true");
                     res.put("Message", "Ocurrio un error inesperado");
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -55,6 +54,7 @@ public class GymController {
             }
         }
 
+        /*
     @RequestMapping(value = "api/gym/profits", method = RequestMethod.POST)
     public Map clientProfits(@RequestBody Map dates, HttpServletResponse response, HttpServletRequest request){
         if(jwtUtil.isValidAuthTokenFromCookie(request)){
@@ -68,4 +68,6 @@ public class GymController {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         return null;
     }
+
+         */
 }

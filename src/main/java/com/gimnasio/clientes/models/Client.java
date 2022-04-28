@@ -7,7 +7,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cliente")
+@Table(name = "clients")
 @ToString
 public class Client {
 
@@ -20,47 +20,27 @@ public class Client {
 
     @Getter
     @Setter
-    @Column(name = "dni")
-    private String dni;
+    @Column(name = "id_gym")
+    private String id_gym;
 
     @Getter
     @Setter
-    @Column(name = "name")
-    private String name;
+    @Column(name = "email")
+    private String email;
 
     @Getter
     @Setter
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "full_name")
+    private String full_name;
 
-    @Getter
-    @Setter
-    @Column(name = "payment")
-    private String payment;
 
-    @Getter
-    @Setter
-    @Column(name = "expiration")
-    private String expiration;
-
-    @Getter
-    @Setter
-    @Column(name = "value")
-    private Integer value;
-
-    @Getter
-    @Setter
-    @Column(name = "gym")
-    private String gym;
 
     /**
      *
      * @return
      */
     public boolean isValid(){
-        if(name != null && name != "" && surname != null && surname != ""
-                && dni != null && dni != "" && value != null && payment != "" &&
-                payment != "" && expiration != null && expiration != "" ){
+        if(full_name != null && full_name != "" && email != null && email != "" ){
             return true;
         }
         return false;

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface GymDao {
     void registerGym(Gym gym);
-    Gym getGymByName(Gym gym);
+    Gym getGymByEmail(Gym gym);
     Gym authGym(Gym gym);
-    Integer getProfitsByDate(Map dates);
+    //Integer getProfitsByDate(Map dates);
 }

@@ -42,7 +42,7 @@ public class JWTUtil {
 
     @Getter
     @Setter
-    private String gym;
+    private String id_gym;
 
     private final Logger log = LoggerFactory
             .getLogger(JWTUtil.class);
@@ -120,8 +120,8 @@ public class JWTUtil {
         if (cookies != null) {
             String token = Arrays.stream(cookies).filter(c-> Objects.equals(c.getName(), "token"))
                     .map(c -> c.getValue()).collect(Collectors.joining(", "));
-            setGym(getKey(token));
-            return getGym() != null;
+            setId_gym(getKey(token));
+            return getId_gym() != null;
         }
         return false;
     }

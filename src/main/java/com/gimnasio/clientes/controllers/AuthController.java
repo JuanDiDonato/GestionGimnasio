@@ -40,7 +40,7 @@ public class AuthController {
         }else{
             Gym credentials = gymDao.authGym(gymData);
             if(credentials != null){
-                String token = jwtUtil.create(String.valueOf(credentials.getId()), credentials.getGym_name());
+                String token = jwtUtil.create(String.valueOf(credentials.getId()), credentials.getName());
 
                 Cookie cookie = new Cookie("token",token);
                 cookie.setSecure(true);

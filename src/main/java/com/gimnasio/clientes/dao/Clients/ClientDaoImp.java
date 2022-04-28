@@ -28,10 +28,10 @@ public class ClientDaoImp implements ClientDao {
      */
     @Override
     public List<Client> getClientList() {
-        System.out.println(jwtUtil.getGym());
-        String query = "FROM Client WHERE gym = :gym";
+        String query = "FROM Client WHERE id_gym = :id_gym";
+        String inner = "FROM Client INNER JOIN Payments WHERE Client.id_gym = :id_gym";
         return entityManager.createQuery(query)
-                .setParameter("gym",jwtUtil.getGym())
+                .setParameter("id_gym",jwtUtil.getId_gym())
                 .getResultList();
     }
 
@@ -41,33 +41,32 @@ public class ClientDaoImp implements ClientDao {
      * @return
      */
     @Override
-    public Client getClientById(@PathVariable int id) {
-        List<Client> cliente = entityManager.createQuery("FROM Client WHERE id = :id AND gym = :gym")
+    public Client getClientById(int id) {
+        List<Client> client = entityManager.createQuery("FROM Client WHERE id = :id AND id_gym = :id_gym")
                 .setParameter("id",id)
-                .setParameter("gym",jwtUtil.getGym())
+                .setParameter("id_gym",jwtUtil.getId_gym())
                 .getResultList();
 
-        if(cliente.isEmpty()){
+        if(client.isEmpty()){
             return null;
         }else{
-            return cliente.get(0);
+            return client.get(0);
         }
     }
-
     @Override
-    public Client getClientByDni(Client client) {
-        List<Client> cliente = entityManager.createQuery("FROM Client WHERE dni = :dni AND gym = :gym")
-                .setParameter("dni",client.getDni())
-                .setParameter("gym",jwtUtil.getGym())
+    public Client getClientByEmail(Client client) {
+        List<Client> results = entityManager.createQuery("FROM Client WHERE email = :email AND id_gym = :id_gym")
+                .setParameter("email",client.getEmail())
+                .setParameter("id_gym",jwtUtil.getId_gym())
                 .getResultList();
 
-        if(cliente.isEmpty()){
+        if(results.isEmpty()){
             return null;
         }else{
-            return cliente.get(0);
+            return results.get(0);
         }
-
     }
+
 
     @Override
     public void createClient(Client cliente) {

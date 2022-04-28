@@ -2,12 +2,12 @@ package com.gimnasio.clientes.models;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "gimnasios")
+@Table(name = "gym")
 public class Gym {
 
     @Getter
@@ -19,8 +19,13 @@ public class Gym {
 
     @Getter
     @Setter
-    @Column(name = "gym_name")
-    private String gym_name;
+    @Column(name = "name")
+    private String name;
+
+    @Getter
+    @Setter
+    @Column(name = "email")
+    private String email;
 
     @Getter
     @Setter
@@ -28,7 +33,7 @@ public class Gym {
     private String password;
 
     public boolean isValid(){
-        if(gym_name == null || gym_name == "" || password == null || password == ""){
+        if(name == null || name == "" || password == null || password == "" || email == null || email == ""){
             return false;
         }
         return true;

@@ -41,6 +41,7 @@ public class ClientControllers {
      *
      * @param clientData
      * @param response
+     * @param request
      * @return
      */
     @RequestMapping(value = "api/client", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,14 +54,14 @@ public class ClientControllers {
                 res.put("Message","Complete todos los campos");
                 return res;
             }else{
-                Client client = clientDao.getClientByDni(clientData);
+                Client client = clientDao.getClientByEmail(clientData);
                 if(client != null){
                     response.setStatus(HttpServletResponse.SC_CONFLICT);
                     res.put("Error","true");
-                    res.put("Message","Ya existe un cliente con este dni.");
+                    res.put("Message","Este email ya esta registrado");
                     return res;
                 }else{
-                    clientData.setGym(jwtUtil.getGym());
+                    clientData.setId_gym(jwtUtil.getId_gym());
                     clientDao.createClient(clientData);
                     response.setStatus(HttpServletResponse.SC_CREATED);
                     res.put("Error","false");
@@ -77,6 +78,7 @@ public class ClientControllers {
      *
      * @param id
      * @param response
+     * @param request
      * @return
      */
     @RequestMapping(value = "api/client/{id}", method = RequestMethod.GET)
@@ -94,6 +96,7 @@ public class ClientControllers {
      * @param id
      * @param clientData
      * @param response
+     * @param request
      * @return
      */
     @RequestMapping(value = "api/client/{id}", method = RequestMethod.PUT)
@@ -102,18 +105,17 @@ public class ClientControllers {
            Map<String, String> res = new HashMap<String, String>();
            Client cliente = clientDao.getClientById(id);
            if(cliente != null){
-               cliente.setPayment(clientData.getPayment());
-               cliente.setExpiration(clientData.getExpiration());
-               cliente.setValue(clientData.getValue());
+               cliente.setEmail(clientData.getEmail());
+               cliente.setFull_name(clientData.getFull_name());
                clientDao.updateClient(cliente);
                response.setStatus(HttpServletResponse.SC_OK);
                res.put("Error","false");
-               res.put("Message","Membresía actualizada con exito");
+               res.put("Message","Datos actualizados con exito");
                return res;
            }else{
                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                res.put("Error","true");
-               res.put("Message"," El cliente no existe");
+               res.put("Message","Ocurrio un error inesperado");
                return res;
            }
        }
@@ -121,6 +123,13 @@ public class ClientControllers {
         return null;
     }
 
+    /**
+     *
+     * @param id
+     * @param response
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "api/client/{id}", method = RequestMethod.DELETE)
     public Map deleteClientById(@PathVariable int id,HttpServletResponse response, HttpServletRequest request) {
         if(jwtUtil.isValidAuthTokenFromCookie(request)){
